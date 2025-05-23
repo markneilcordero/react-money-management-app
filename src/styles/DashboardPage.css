@@ -1,0 +1,47 @@
+/* Main Layout */
+.dashboard-page {
+  background-color: #f8f9fa;
+}
+
+/* Headings */
+.dashboard-page h1 {
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* Summary Cards */
+.card-summary .card {
+  border-width: 2px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-summary .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.card-summary h3 {
+  font-weight: bold;
+}
+
+/* Chart Card */
+.card .card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Recent Transactions */
+.list-group-item {
+  font-size: 0.95rem;
+}
+
+.list-group-item strong {
+  display: block;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .card-summary .card {
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,53 @@
+/* General layout */
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 4rem 0;
+}
+
+.hero-section h1 {
+  font-weight: 700;
+}
+
+.hero-section .btn {
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+}
+
+/* Features Section */
+.features-section h2,
+.how-it-works-section h2 {
+  font-weight: 700;
+  color: #333;
+}
+
+.features-section .card,
+.how-it-works-section .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.features-section .card:hover,
+.how-it-works-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* Chat Widget */
+.chat-widget {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+}
+
+/* Footer */
+footer {
+  background-color: #f8f9fa;
+  font-size: 0.875rem;
+}

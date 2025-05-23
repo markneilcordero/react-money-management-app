@@ -1,0 +1,30 @@
+/* Page Container */
+.edit-transaction-page {
+  background-color: #f8f9fa;
+}
+
+/* Heading */
+.edit-transaction-page h1 {
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #343a40;
+}
+
+/* Form Card */
+.card-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 0.5rem;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .edit-transaction-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .card-form {
+    padding: 1.5rem;
+  }
+}

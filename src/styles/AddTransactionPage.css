@@ -1,0 +1,36 @@
+/* Container background */
+.add-transaction-page {
+  background-color: #f8f9fa;
+}
+
+/* Heading */
+.add-transaction-page h1 {
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 2rem;
+}
+
+/* Center the form card */
+.card-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+}
+
+/* Button styling */
+.card-form .btn {
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .add-transaction-page h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-form {
+    padding: 1.5rem;
+  }
+}

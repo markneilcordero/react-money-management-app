@@ -1,0 +1,39 @@
+/* Main Layout */
+.import-export-page {
+  background-color: #f8f9fa;
+}
+
+/* Heading */
+.import-export-page h1 {
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* Card Styling */
+.import-export-page .card {
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+}
+
+/* Button Styling */
+.import-export-page .btn {
+  font-weight: 600;
+}
+
+/* File Input */
+.import-export-page input[type="file"] {
+  margin-top: 1rem;
+}
+
+/* Result Message */
+.import-export-page .alert {
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .import-export-page h1 {
+    font-size: 1.5rem;
+  }
+}

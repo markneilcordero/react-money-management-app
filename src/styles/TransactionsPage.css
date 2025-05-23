@@ -1,0 +1,45 @@
+/* Page Container */
+.transactions-page {
+  background-color: #f8f9fa;
+}
+
+/* Header */
+.transactions-page h1 {
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* Card Headings */
+.transactions-page .card h6 {
+  font-weight: 600;
+}
+
+/* Table */
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.table td.text-end {
+  text-align: right;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* Filter and Search Cards */
+.transactions-page .card {
+  min-height: 100%;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .transactions-page .table-responsive {
+    font-size: 0.95rem;
+  }
+
+  .transactions-page h1 {
+    font-size: 1.5rem;
+  }
+}
