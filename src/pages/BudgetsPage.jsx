@@ -1,4 +1,3 @@
-// src/pages/BudgetsPage.jsx
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
@@ -15,6 +14,8 @@ export default function BudgetsPage() {
   const [budgets, setBudgets] = useState([]);
   const [editingBudget, setEditingBudget] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [budgetToDelete, setBudgetToDelete] = useState(null);
 
   useEffect(() => {
     const data = getLocalData("money-app-budgets", []);
@@ -24,10 +25,8 @@ export default function BudgetsPage() {
   const handleSave = (budget) => {
     let updated = [];
     if (budget.id) {
-      // Edit existing
       updated = budgets.map((b) => (b.id === budget.id ? budget : b));
     } else {
-      // Add new
       updated = [...budgets, { ...budget, id: generateId() }];
     }
     saveLocalData("money-app-budgets", updated);
@@ -42,10 +41,16 @@ export default function BudgetsPage() {
   };
 
   const handleDelete = (id) => {
-    if (!confirm("Are you sure you want to delete this budget?")) return;
-    const updated = budgets.filter((b) => b.id !== id);
+    setBudgetToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    const updated = budgets.filter((b) => b.id !== budgetToDelete);
     saveLocalData("money-app-budgets", updated);
     setBudgets(updated);
+    setBudgetToDelete(null);
+    setShowDeleteModal(false);
   };
 
   const handleAdd = () => {
@@ -78,6 +83,42 @@ export default function BudgetsPage() {
           onSave={handleSave}
           onClose={() => setShowModal(false)}
         />
+      )}
+
+      {showDeleteModal && (
+        <div
+          className="modal fade show d-block"
+          tabIndex={-1}
+          role="dialog"
+          style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content shadow">
+              <div className="modal-header">
+                <h5 className="modal-title text-danger">Confirm Deletion</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowDeleteModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                Are you sure you want to delete this budget?
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+                <button className="btn btn-danger" onClick={confirmDelete}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
