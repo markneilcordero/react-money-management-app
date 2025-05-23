@@ -33,48 +33,30 @@ export default function TransactionTable({ transactions, setTransactions }) {
 
   return (
     <>
-      <div className="table-responsive">
-        <table className="table table-bordered table-striped align-middle shadow-sm">
-          <thead className="table-light">
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th className="text-end">Amount (₱)</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((tx) => (
-              <tr key={tx.id}>
-                <td>{new Date(tx.date).toLocaleDateString()}</td>
-                <td className={tx.type === "income" ? "text-success" : "text-danger"}>
+      <div className="row g-3">
+        {transactions.map((tx) => (
+          <div key={tx.id} className="col-12 col-md-6 col-lg-4">
+            <div className="card shadow-sm h-100">
+              <div className="card-body">
+                <h6 className="card-title mb-2">{new Date(tx.date).toLocaleDateString()}</h6>
+                <p className={`fw-bold ${tx.type === "income" ? "text-success" : "text-danger"} mb-1`}>
                   {tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
-                </td>
-                <td>{tx.category || "Uncategorized"}</td>
-                <td>{tx.description || "-"}</td>
-                <td className="text-end">{parseFloat(tx.amount).toLocaleString()}</td>
-                <td>
-                  <div className="btn-group">
-                    <Link
-                      to={`/transactions/edit/${tx.id}`}
-                      className="btn btn-sm btn-outline-primary"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      className="btn btn-sm btn-outline-danger"
-                      onClick={() => confirmDelete(tx.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </p>
+                <p className="mb-1"><strong>Category:</strong> {tx.category || "Uncategorized"}</p>
+                <p className="mb-1"><strong>Description:</strong> {tx.description || "-"}</p>
+                <p className="mb-0 text-end"><strong>Amount:</strong> ₱{parseFloat(tx.amount).toLocaleString()}</p>
+              </div>
+              <div className="card-footer d-flex justify-content-between">
+                <Link to={`/transactions/edit/${tx.id}`} className="btn btn-sm btn-outline-primary">
+                  Edit
+                </Link>
+                <button className="btn btn-sm btn-outline-danger" onClick={() => confirmDelete(tx.id)}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Delete Confirmation Modal */}
@@ -99,16 +81,10 @@ export default function TransactionTable({ transactions, setTransactions }) {
                 Are you sure you want to delete this transaction?
               </div>
               <div className="modal-footer">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
-                >
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={handleDeleteConfirmed}
-                >
+                <button className="btn btn-danger" onClick={handleDeleteConfirmed}>
                   Delete
                 </button>
               </div>

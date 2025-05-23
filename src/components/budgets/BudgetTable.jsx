@@ -1,4 +1,3 @@
-// src/components/budgets/BudgetTable.jsx
 import React, { useEffect, useState } from "react";
 import { getLocalData } from "../../utils/localStorageHelpers";
 import { calculateCategoryExpenses } from "../../utils/budgetHelpers";
@@ -27,60 +26,52 @@ export default function BudgetTable({ budgets, onEdit, onDelete }) {
   }
 
   return (
-    <div className="table-responsive">
-      <table className="table table-bordered table-hover shadow-sm align-middle">
-        <thead className="table-light">
-          <tr>
-            <th>Category</th>
-            <th className="text-end">Limit (₱)</th>
-            <th className="text-end">Spent (₱)</th>
-            <th className="text-end">Remaining (₱)</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {budgets.map((budget) => {
-            const spent = categoryTotals[budget.category] || 0;
-            const remaining = budget.limit - spent;
-            const isOverspent = remaining < 0;
+    <div className="row g-3">
+      {budgets.map((budget) => {
+        const spent = categoryTotals[budget.category] || 0;
+        const remaining = budget.limit - spent;
+        const isOverspent = remaining < 0;
 
-            return (
-              <tr key={budget.id}>
-                <td>{budget.category}</td>
-                <td className="text-end">{budget.limit.toLocaleString()}</td>
-                <td className="text-end">{spent.toLocaleString()}</td>
-                <td className={`text-end ${isOverspent ? "text-danger" : "text-success"}`}>
-                  {remaining.toLocaleString()}
-                </td>
-                <td>
+        return (
+          <div key={budget.id} className="col-12 col-md-6 col-lg-4">
+            <div className="card h-100 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">{budget.category}</h5>
+                <p className="card-text mb-1">
+                  <strong>Limit:</strong> ₱{budget.limit.toLocaleString()}
+                </p>
+                <p className="card-text mb-1">
+                  <strong>Spent:</strong> ₱{spent.toLocaleString()}
+                </p>
+                <p className={`card-text ${isOverspent ? "text-danger" : "text-success"}`}>
+                  <strong>Remaining:</strong> ₱{remaining.toLocaleString()}
+                </p>
+                <p>
                   {isOverspent ? (
                     <span className="badge bg-danger">Overspent</span>
                   ) : (
                     <span className="badge bg-success">On Track</span>
                   )}
-                </td>
-                <td>
-                  <div className="btn-group">
-                    <button
-                      className="btn btn-sm btn-outline-primary"
-                      onClick={() => onEdit(budget)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-sm btn-outline-danger"
-                      onClick={() => onDelete(budget.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                </p>
+              </div>
+              <div className="card-footer d-flex justify-content-between">
+                <button
+                  className="btn btn-sm btn-outline-primary"
+                  onClick={() => onEdit(budget)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={() => onDelete(budget.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
