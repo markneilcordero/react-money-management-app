@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { defaultSuggestedCommands } from "../../constants/commands";
 import { handleCommand } from "../../utils/commandInterpreter";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState(defaultSuggestedCommands.map((cmd) => `👉 ${cmd}`));
+  const [messages, setMessages] = useState([]);
   const [newCommand, setNewCommand] = useState("");
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleAddCommand = () => {
     const trimmed = newCommand.trim();
     if (!trimmed) return;
 
-    // Add user command
-    const userMessage = `🗨️ ${trimmed}`;
-    const response = handleCommand(trimmed); // Process the command
-    const botMessage = `🤖 ${response}`;
+    const userMessage = { type: "user", text: trimmed };
+    const response = handleCommand(trimmed);
+    const botMessage = { type: "bot", text: `🤖 ${response}` };
 
     setMessages((prev) => [...prev, userMessage, botMessage]);
     setNewCommand("");
@@ -40,44 +46,89 @@ export default function ChatWidget() {
         💬
       </button>
 
-      {/* Chat Popover */}
+      {/* Chat Widget Popover */}
       {open && (
         <div
-          className="chat-widget bg-white rounded shadow-lg p-3 position-fixed"
+          className="chat-widget bg-white border rounded shadow-lg d-flex flex-column position-fixed"
           style={{
             bottom: "90px",
             right: "20px",
-            width: "320px",
-            maxHeight: "420px",
-            overflowY: "auto",
+            width: "360px",
+            maxHeight: "500px",
             zIndex: 1051,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <h6 className="fw-bold mb-2">💬 AI Assistant</h6>
-
-          <ul className="list-unstyled small mb-3">
-            {messages.map((msg, idx) => (
-              <li key={idx} className="mb-1">
-                <code>{msg}</code>
-              </li>
-            ))}
-          </ul>
-
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control form-control-sm"
-              placeholder="Try: Add expense: Food 100"
-              value={newCommand}
-              onChange={(e) => setNewCommand(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddCommand()}
-            />
+          {/* Header */}
+          <div className="d-flex justify-content-between align-items-center border-bottom px-3 py-2 bg-primary text-white rounded-top">
+            <strong>🤖 AI Assistant</strong>
             <button
-              className="btn btn-sm btn-outline-primary"
-              onClick={handleAddCommand}
+              className="btn btn-sm btn-light text-dark"
+              onClick={() => setOpen(false)}
+              aria-label="Close"
             >
-              Send
+              ✖
             </button>
+          </div>
+
+          {/* Chat History */}
+          <div
+            className="flex-grow-1 overflow-auto px-3 py-2"
+            ref={scrollRef}
+            style={{ backgroundColor: "#f8f9fa" }}
+          >
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`mb-2 d-flex ${
+                  msg.type === "user"
+                    ? "justify-content-end"
+                    : "justify-content-start"
+                }`}
+              >
+                <div
+                  className={`p-2 px-3 rounded-4 text-wrap small shadow-sm ${
+                    msg.type === "user"
+                      ? "bg-primary text-white"
+                      : "bg-light border"
+                  }`}
+                  style={{ maxWidth: "80%" }}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Suggested Commands */}
+          <div className="border-top px-3 pt-2 pb-3 bg-white">
+            <h6 className="fw-bold mb-2">💡 Suggested Commands</h6>
+            <ul className="list-unstyled small mb-2">
+              {defaultSuggestedCommands.map((cmd, idx) => (
+                <li key={idx} className="mb-1">
+                  👉 <code>{cmd}</code>
+                </li>
+              ))}
+            </ul>
+
+            {/* Input */}
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Try: Add expense: Food 100"
+                value={newCommand}
+                onChange={(e) => setNewCommand(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAddCommand()}
+              />
+              <button
+                className="btn btn-outline-primary"
+                onClick={handleAddCommand}
+              >
+                Send
+              </button>
+            </div>
           </div>
         </div>
       )}
