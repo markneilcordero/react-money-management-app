@@ -1,4 +1,3 @@
-// src/components/transactions/TransactionForm.jsx
 import React, { useState, useEffect } from "react";
 import "../../styles/TransactionForm.css";
 
@@ -17,14 +16,16 @@ const defaultForm = {
  */
 export default function TransactionForm({ onSave, initialValues = null }) {
   const [form, setForm] = useState(initialValues || defaultForm);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (initialValues) {
       setForm({
         ...initialValues,
-        date: initialValues.date?.slice(0, 10), // ensure yyyy-mm-dd format
+        date: initialValues.date?.slice(0, 10),
       });
     }
+    setError("");
   }, [initialValues]);
 
   const handleChange = (e) => {
@@ -34,8 +35,9 @@ export default function TransactionForm({ onSave, initialValues = null }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.amount || !form.category) {
-      alert("Amount and category are required.");
+
+    if (!form.amount || !form.category.trim()) {
+      setError("Amount and category are required.");
       return;
     }
 
@@ -47,10 +49,17 @@ export default function TransactionForm({ onSave, initialValues = null }) {
 
     onSave(cleaned);
     if (!initialValues) setForm(defaultForm); // reset only if it's a new transaction
+    setError(""); // clear error after successful submit
   };
 
   return (
     <form onSubmit={handleSubmit} className="card card-form p-4 shadow-sm">
+      {error && (
+        <div className="alert alert-danger py-2 small mb-3" role="alert">
+          {error}
+        </div>
+      )}
+
       <div className="mb-3">
         <label className="form-label">Transaction Type</label>
         <select

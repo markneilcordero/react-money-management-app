@@ -1,4 +1,3 @@
-// src/components/budgets/BudgetFormModal.jsx
 import React, { useState, useEffect } from "react";
 
 /**
@@ -10,6 +9,7 @@ import React, { useState, useEffect } from "react";
 export default function BudgetFormModal({ budget, onSave, onClose }) {
   const [category, setCategory] = useState("");
   const [limit, setLimit] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (budget) {
@@ -19,12 +19,14 @@ export default function BudgetFormModal({ budget, onSave, onClose }) {
       setCategory("");
       setLimit("");
     }
+    setError("");
   }, [budget]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!category.trim() || limit <= 0) {
-      alert("Please enter a valid category and limit.");
+
+    if (!category.trim() || parseFloat(limit) <= 0) {
+      setError("Please enter a valid category and limit.");
       return;
     }
 
@@ -38,7 +40,12 @@ export default function BudgetFormModal({ budget, onSave, onClose }) {
   };
 
   return (
-    <div className="modal fade show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
+    <div
+      className="modal fade show d-block"
+      tabIndex={-1}
+      role="dialog"
+      style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+    >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content shadow">
           <div className="modal-header">
@@ -48,6 +55,12 @@ export default function BudgetFormModal({ budget, onSave, onClose }) {
 
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
+              {error && (
+                <div className="alert alert-danger py-2 small" role="alert">
+                  {error}
+                </div>
+              )}
+
               <div className="mb-3">
                 <label className="form-label">Category</label>
                 <input
