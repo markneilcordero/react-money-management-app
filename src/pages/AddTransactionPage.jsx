@@ -38,7 +38,7 @@ export default function AddTransactionPage() {
   return (
     <div className="add-transaction-page d-flex flex-column min-vh-100">
       <Navbar />
-      <main className="container py-5">
+      <main className="container py-5 flex-grow-1">
         <h1 className="text-center mb-4">➕ Add New Transaction</h1>
         <TransactionForm onSave={handleSave} />
       </main>
